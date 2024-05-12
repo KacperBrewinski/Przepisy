@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Edytuj przepis - <%= recipe.name %></title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .page-title {
+      font-size: 50px;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+
+    label {
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="page-title">Edytuj przepis - <%= recipe.name %></h1>
+    <form action="/recipes/edit/<%= recipe.id %>" method="POST">
+      <label>Nazwa:</label>
+      <input type="text" name="name" value="<%= recipe.name %>" required><br>
+      <label>Składniki:</label>
+      <textarea name="ingredients" required><%= recipe.ingredients %></textarea><br>
+      <label>Instrukcja:</label>
+      <textarea name="instructions" required><%= recipe.instructions %></textarea><br>
+      <button type="submit">Zapisz zmiany</button>
+    </form>
+
+    <a href="/recipes">Wróć do przepisów</a>
+  </div>
+</body>
+</html>

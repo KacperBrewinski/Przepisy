@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Dodaj nowy przepis</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .page-title {
+      font-size: 50px;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+    
+    label {
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 10px;
+      }
+  </style>
+</head>
+</head>
+<body>
+  <div class="container">
+    <h1 class="page-title">Dodaj nowy przepis</h1>
+    <form action="/recipes/add" method="POST">
+      <label>Nazwa:</label>
+      <input type="text" name="name" required><br>
+      <label>Składniki:</label>
+      <textarea name="ingredients" required></textarea><br>
+      <label>Instrukcja:</label>
+      <textarea name="instructions" required></textarea><br>
+      <button type="submit">Dodaj przepis</button>
+    </form>
+    <a href="/recipes">Wróc do przepisów</a>
+  </div>
+</body>
+</html>

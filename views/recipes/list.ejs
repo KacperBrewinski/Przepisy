@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista Przepisów</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .page-title {
+      font-size: 50px;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+    label {
+      font-size: 15px;
+      font-weight: bold;
+      margin-top: 10px;
+  }
+    .comments-list {
+      list-style: none;
+      padding: 0;
+    }
+    .comment-item {
+      margin-bottom: 5px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
+    .add-comment-form {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="page-title">Lista Przepisów</h1>
+    <table class="recipe-table">
+      <thead>
+        <tr>
+          <th>Nazwa</th>
+          <th>Składniki</th>
+          <th>Instrukcja</th>
+          <th>Komentarze</th>
+          <th>Ocena</th>
+          <th>Akcje</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% recipes.forEach(recipe => { %>
+          <tr>
+            <td class="recipe-name"><strong><%= recipe.name %></strong></td>
+            <td class="recipe-details"><%= recipe.ingredients %></td>
+            <td class="recipe-details"><%= recipe.instructions %></td>
+            <td>
+              <ul class="comments-list">
+                <% if (recipe.comments && recipe.comments.length > 0) { %>
+                  <% recipe.comments.forEach(comment => { %>
+                    <li class="comment-item"><%= comment.text %></li>
+                  <% }) %>
+                <% } else { %>
+                  <li class="comment-item">Brak komentarzy</li>
+                <% } %>
+              </ul>           
+            </td>
+            <td>
+              <% if (recipe.rating && recipe.rating.value) { %>
+                <%= recipe.rating.value.toFixed(1) %> / 5
+              <% } else { %>
+                Brak oceny
+              <% } %>
+            </td>
+            <td class="action-buttons">
+              <form action="/recipes/addRating?recipeId=<%= recipe.id %>" method="POST">
+                <label for="rating">Ocena:</label>
+                <input type="number" id="rating" name="rating" step="0.5" min="0" max="5" required>
+                <button type="submit">Dodaj ocenę</button>
+              </form>
+              <form action="/recipes/addComment" method="POST" class="action-form">
+                <input type="hidden" name="recipeId" value="<%= recipe.id %>">
+                <input type="text" name="commentText" placeholder="Dodaj komentarz" required>
+                <button type="submit" class="action-button">Dodaj komentarz</button>
+              </form>
+              <form action="/recipes/edit/<%= recipe.id %>" method="GET" class="action-form">
+                <button type="submit" class="action-button">Edytuj</button>
+              </form>
+              <form action="/recipes/delete/<%= recipe.id %>" method="POST" style="display: inline;">
+                <input type="hidden" name="_method" value="POST">
+                <button type="submit" onclick="return confirm('Czy na pewno chcesz usunąć ten przepis?')">Usuń</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <form action="/recipes/add" method="GET">
+      <button type="submit" class="add-button">Dodaj nowy przepis</button>
+    </form>
+  </div>
+</body>
+</html>
